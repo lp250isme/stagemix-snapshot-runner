@@ -51,6 +51,8 @@ jobs:
           token: ${{ env.STAGEMIX_REPO_TOKEN }}
           path: src
           persist-credentials: false
+      - name: Swift toolchain
+        run: swift --version || { echo "no swift on this runner"; cat /etc/os-release | head -2; }
       - name: rclone
         run: sudo apt-get update -qq > /dev/null && sudo apt-get install -y -qq rclone > /dev/null
       - name: Run
