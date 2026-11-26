@@ -2,11 +2,11 @@
 name: snapshot
 on:
   schedule:
-    - cron: "17 6 * * *"    # 14:17 Taipei, full
-    - cron: "17 9 * * *"    # 17:17, new uploads only
-    - cron: "17 12 * * *"   # 20:17, full
-    - cron: "17 15 * * *"   # 23:17, new uploads only
-    - cron: "17 18 * * *"   # 02:17, new uploads only
+    - cron: "37 6 * * *"    # 14:37 Taipei, full
+    - cron: "37 9 * * *"    # 17:37, new uploads only
+    - cron: "37 12 * * *"   # 20:37, full
+    - cron: "37 15 * * *"   # 23:37, new uploads only
+    - cron: "37 18 * * *"   # 02:37, new uploads only
   workflow_dispatch:
     inputs:
       budget:
@@ -41,7 +41,7 @@ jobs:
             [[ "$line" =~ $keys ]] && echo "$line" >> "$GITHUB_ENV"
           done <<< "$BLOB"
           case "$SCHEDULE" in
-            "17 6 * * *") b=2500 ;; "17 12 * * *") b=6400 ;; "") b="$INPUT_BUDGET" ;; *) b=200 ;;
+            "37 6 * * *") b=2500 ;; "37 12 * * *") b=6400 ;; "") b="$INPUT_BUDGET" ;; *) b=200 ;;
           esac
           [[ "$b" =~ ^[0-9]+$ ]] || b=200
           echo "BUDGET=$b" >> "$GITHUB_ENV"
