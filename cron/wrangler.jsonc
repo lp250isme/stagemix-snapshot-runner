@@ -1,0 +1,9 @@
+{
+  "name": "stagemix-cron",
+  "main": "worker.js",
+  "compatibility_date": "2026-11-01",
+  "workers_dev": false,
+  "triggers": { "crons": ["37 6,9,12,15,18 * * *"] },
+  "observability": { "enabled": true }
+  // secret GH_TOKEN: fine-grained token, this repo only, Actions read and write
+}
