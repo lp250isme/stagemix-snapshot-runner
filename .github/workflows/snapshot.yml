@@ -43,8 +43,19 @@ jobs:
           token: ${{ env.STAGEMIX_REPO_TOKEN }}
           path: src
           persist-credentials: false
+      # Pinned: the runner's own Swift moved 6.4.2 -> 6.4.3 in one day, and the state is kept per toolchain (a new
+      # one rebuilds everything, ~70 min). To move on, change both lines; the first run after that rebuilds once.
       - name: Swift toolchain
-        run: swift --version || { echo "no swift on this runner"; cat /etc/os-release | head -2; }
+        env:
+          SWIFT: swift-6.4.3-RELEASE
+          SHA256: 9456e95bcbf73849dde44c90e94c6e4f747f72b35f70891eb7ea8562a2aea202
+        run: |
+          curl -fsSL -o "$RUNNER_TEMP/swift.tgz" "https://download.swift.org/$(echo "$SWIFT" | tr A-Z a-z)/ubuntu2404/$SWIFT/$SWIFT-ubuntu24.04.tar.gz"
+          echo "$SHA256  $RUNNER_TEMP/swift.tgz" | sha256sum -c --quiet
+          mkdir "$RUNNER_TEMP/swift" && tar -xzf "$RUNNER_TEMP/swift.tgz" -C "$RUNNER_TEMP/swift" --strip-components=1
+          rm "$RUNNER_TEMP/swift.tgz"
+          echo "$RUNNER_TEMP/swift/usr/bin" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/swift/usr/bin/swift" --version
       - name: rclone
         run: sudo apt-get update -qq > /dev/null && sudo apt-get install -y -qq rclone > /dev/null
       - name: Run
