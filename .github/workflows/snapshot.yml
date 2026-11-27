@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04   # with the Swift tarball below (26.04 has no libxml2.so.2)
     timeout-minutes: 340
     steps:
       - name: Unpack secret
